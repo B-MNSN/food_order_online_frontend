@@ -58,7 +58,7 @@ function Navbars() {
                                 <NavDropdown.Item href="#profile"><FiUser />Profile</NavDropdown.Item>
                                 <NavDropdown.Item href="#setting"><IoSettingsOutline />Setting</NavDropdown.Item>
                                 <NavDropdown.Divider />
-                                <NavDropdown.Item href="#logout"><MdLogout />Logut</NavDropdown.Item>
+                                <NavDropdown.Item href="#logout"><MdLogout />Logout</NavDropdown.Item>
                             </NavDropdown>
                         </Nav>
                         
