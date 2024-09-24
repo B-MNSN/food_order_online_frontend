@@ -1,0 +1,57 @@
+.navbar {
+    margin: 1.3rem 2rem 0;
+    border-radius: 5px;
+    box-shadow: 0 4px 24px 0 rgba(34, 41, 47, .1);
+    background-color: #fff;
+    .icon-brand {
+        max-width: 130px;
+        max-height: 50px;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        &::before{
+            content: "";
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            width: 100%;
+            height: 100%;
+            background-image: url('../assets/order-food.svg');
+        }
+    }
+    .dropdown-toggle::after {
+        display: unset !important;
+        margin-left: unset !important;
+        vertical-align: unset !important;
+        content: "";
+        border-top: unset !important;
+        border-right: unset !important;
+        border-bottom: unset !important;
+        border-left: unset !important;
+
+    }
+    .dropdown-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .input-search {
+        &:focus {
+            box-shadow: unset;
+            border: 1px solid #dee2e6;
+        }
+    }
+    .btn-search {
+        background: none;
+        border: none;
+    }
+    .box-menu-nav {
+        justify-content: flex-end;
+        flex-grow: 1;
+        padding-right: 1rem;
+        gap: 3rem;
+    }
+}
