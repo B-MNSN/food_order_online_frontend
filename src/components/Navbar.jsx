@@ -23,7 +23,7 @@ function Navbars() {
     return (
         <Navbar key="md" expand="md" className="navbar mb-3">
             <Container fluid>
-                <Navbar.Brand href="#" className="icon-brand">FOODR</Navbar.Brand>
+                <Navbar.Brand href="/home" className="icon-brand">FOODR</Navbar.Brand>
                 <Form className="d-flex ms-5">
                     <Form.Control
                         type="search"
@@ -46,9 +46,9 @@ function Navbars() {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Nav className="box-menu-nav">
-                            <Nav.Link href="#Home"><GoHomeFill size={25} className='me-1'/>Home</Nav.Link>
-                            <Nav.Link href="#History"><MdHistory size={25} className='me-1'/>History</Nav.Link>
-                            <Nav.Link href="#cart"><FaCartShopping size={25} className='me-1'/></Nav.Link>
+                            <Nav.Link href="/home"><GoHomeFill size={25} className='me-1'/>Home</Nav.Link>
+                            <Nav.Link href="/history"><MdHistory size={25} className='me-1'/>History</Nav.Link>
+                            <Nav.Link href="/cart"><FaCartShopping size={25} className='me-1'/></Nav.Link>
 
                             <NavDropdown
                                 title={<FaUserAlt size={25}/>}

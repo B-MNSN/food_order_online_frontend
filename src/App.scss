@@ -2,3 +2,45 @@ body {
     background-color: #f8f8f8 !important;
     margin: 0 2rem !important;
 }
+
+.box-icon {
+    max-width: 100px;
+    max-height: 100px;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #000;
+    border-radius: 50%;
+    padding: 1rem;
+}
+
+.accordion-button {
+    &::after {
+        background-image: unset !important;
+    }
+    &:focus {
+        box-shadow: unset !important;
+    }
+}
+.accordion-title {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.box-list-menu {
+    ul {
+        list-style: none;
+        li {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .order-price-total {
+            font-size: 1rem;
+            font-weight: 700;
+        }
+    }
+}
