@@ -8,6 +8,7 @@ function RatingReview({ rating, setRating }) {
             {[1, 2, 3, 4, 5].map((star) => {
                 return (
                     <FaStar
+                        key={star}
                         className='start'
                         fill={hoveredStar >= star || rating >= star ? '#f3b15a' : '#ddd'}
                         style={{
