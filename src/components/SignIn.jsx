@@ -1,27 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FiUser } from "react-icons/fi";
 import { IoLockClosedOutline } from "react-icons/io5";
 
 const SignIn = () => {
+    const [validated, setValidated] = useState(false);
+
+    const handleSubmit = (event) => {
+        const form = event.currentTarget;
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+        }
+
+        setValidated(true);
+    };
     return (
         <>
-            <h2 className='text-center'>Sign In to <br/> Food Order Online</h2>
-            <Form>
-                <Form.Group className="mt-3 mb-4" controlId="signin-email">
-                    <FiUser size={20} className='mx-2'/>
+            <h2 className='text-center'>Sign In to <br /> Food Order Online</h2>
+            <Form noValidate validated={validated} onSubmit={handleSubmit}>
+                <Form.Group className="mt-3 mb-3" controlId="signin-email">
+                    <FiUser size={20} className='mx-2' />
                     <Form.Label className='fw-semibold'>Email or Username</Form.Label>
-                    <Form.Control type="email" placeholder="Email or Username" />
+                    <Form.Control type="email" placeholder="Email or Username" required/>
+                    <Form.Control.Feedback type="invalid">
+                        Please enter email or username.
+                    </Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group className="mb-4" controlId="signin-pw">
-                    <IoLockClosedOutline size={20} className='mx-2'/>
+                <Form.Group className="mb-3" controlId="signin-pw">
+                    <IoLockClosedOutline size={20} className='mx-2' />
                     <Form.Label className='fw-semibold'>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" />
+                    <Form.Control type="password" placeholder="Password" required/>
+                    <Form.Control.Feedback type="invalid">
+                        Please enter password.
+                    </Form.Control.Feedback>
                 </Form.Group>
                 <Button variant="link" className='d-block mx-auto'>For got your password?</Button>
-                <hr/>
-                <Button variant="dark" className='d-block mx-auto'>Sign In</Button>
+                <hr />
+                <Button type="submit" variant="dark" className='d-block mx-auto'>Sign In</Button>
             </Form>
         </>
 
