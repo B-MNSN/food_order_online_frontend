@@ -8,6 +8,7 @@ import { MdAddShoppingCart } from "react-icons/md";
 import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import ModalFormFood from './ModalFormFood';
+import Swal from 'sweetalert2';
 
 
 import '../sass/foodMenu.scss'
@@ -28,6 +29,15 @@ function FoodMenu({ type }) {
             const newQuantities = [...prevQuantities];
             newQuantities[index] = Math.max(1, newQuantities[index] + delta);
             return newQuantities;
+        });
+    };
+    
+    const handleAlert = () => {
+        Swal.fire({
+            title: "คุณต้องการลบ “ชื่อเมนู” หรือไม่",
+            icon: "warning",
+            confirmButtonText: "Confirm",
+            showCancelButton: true,
         });
     };
 
@@ -66,7 +76,7 @@ function FoodMenu({ type }) {
                                     <div className="vr"></div>
                                     <div className='d-flex align-items-center'>
                                         <FiEdit size={20} className='me-4' onClick={() => setModalShow(true)}/>
-                                        <MdDelete size={25}/>
+                                        <MdDelete size={25}  onClick={() => handleAlert()}/>
                                     </div>
                                 </div>
                             }

@@ -3,10 +3,19 @@ import Image from 'react-bootstrap/Image';
 import dietImage from '../assets/diet.svg';
 import orderHiImage from '../assets/order-history.svg';
 import Button from 'react-bootstrap/Button';
+import Swal from 'sweetalert2';
 
 import { FaLocationDot } from "react-icons/fa6";
 
 function OrderFood({ eventKey, page }) {
+    const handleAlert = () => {
+        Swal.fire({
+            title: "สั่งซื้อรายการอาหารของคุณเรียบร้อย",
+            icon: "success",
+            confirmButtonText: "Confirm",
+        });
+    };
+
     return (
         <Accordion>
             <Accordion.Item eventKey={eventKey}>
@@ -56,7 +65,7 @@ function OrderFood({ eventKey, page }) {
                     </ul>
                     {page === 'cart' ?
                         <div className='d-flex justify-content-end mt-4'>
-                            <Button variant="dark">confirm order</Button>
+                            <Button variant="dark" onClick={() => handleAlert()}>confirm order</Button>
                         </div>
                         :
                         ''
