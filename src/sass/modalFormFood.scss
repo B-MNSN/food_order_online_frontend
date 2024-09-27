@@ -1,0 +1,69 @@
+.box-upload-file {
+    display: flex;
+    width: 250px;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 5px;
+    .text-lastname-file {
+        color: #5573B9;
+        font-size: 1rem;
+        margin-top: 5px;
+    }
+    .file-img,
+    .file-img-preview {
+        display: none;
+    }
+    .remove-file {
+        background-color: #c9c9c9;
+        border-radius: 50%;
+        cursor: pointer;
+        height: 35px;
+        position: absolute;
+        right: -7.5%;
+        top: 0;
+        width: 35px;
+        &> * {
+            pointer-events: none;
+        }
+    }
+    .remove-file,
+    .upload-file-box {
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
+    .upload-file-explode {
+        position: relative;
+    }
+    .upload-file-box {
+        border: 2px solid #3780ff;
+        border-radius: 10px;
+        height: 160px;
+        object-fit: contain;
+        overflow: hidden;
+        margin: 0.75rem 0;
+        width: 250px;
+    }
+    .upload-image-button {
+        cursor: pointer;
+        width: 250px;
+        height: 160px;
+        border: 2px solid #000;
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background-image: url("../assets/bgThumbnail.png");
+        background-repeat: no-repeat;
+        background-size: 50%;
+        background-position: center;
+        &:hover {
+            border: 2px solid #3780ff;
+            color: #3780ff;
+            .text-up-image {
+                color: #3780ff !important;
+            }
+        }
+    }
+}

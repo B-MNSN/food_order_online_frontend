@@ -8,6 +8,7 @@ import Home from './pages/Home';
 import Cart from './pages/Cart';
 import History from './pages/History';
 import AuthPage from './pages/AuthPage'; 
+import MyMenu from './pages/admin/MyMenu';
 
 function App() {
 
@@ -19,6 +20,9 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/history' element={<History />} />
+
+        {/* Admin */}
+        <Route path='/admin/home' element={<MyMenu />} />
       </Routes>
     </>
   )
