@@ -1,21 +1,53 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { FiUser } from "react-icons/fi";
 import { IoLockClosedOutline } from "react-icons/io5";
+import Swal from 'sweetalert2';
+import axios from 'axios';
 
 const SignIn = () => {
     const [validated, setValidated] = useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
+        event.preventDefault();
         const form = event.currentTarget;
+
         if (form.checkValidity() === false) {
-            event.preventDefault();
             event.stopPropagation();
+
+        } else {
+            try {
+                const response = await axios.post('http://localhost:3000/auth/login', {
+                    username,
+                    password,
+                });
+
+                if (response.status === 200) {
+                    sessionStorage.setItem('token', response.data.token);
+                    window.location.href = '/home';
+                }
+            } catch (e) {
+                Swal.fire({
+                    title: e.response.data.message,
+                    icon: "error",
+                    confirmButtonText: "OK",
+                });
+            }
+
         }
 
         setValidated(true);
     };
+
+    const handChange = (fn) => {
+        return (event) => {
+            fn(event.target.value);
+        };
+    };
+
     return (
         <>
             <h2 className='text-center'>Sign In to <br /> Food Order Online</h2>
@@ -23,7 +55,7 @@ const SignIn = () => {
                 <Form.Group className="mt-3 mb-3" controlId="signin-email">
                     <FiUser size={20} className='mx-2' />
                     <Form.Label className='fw-semibold'>Email or Username</Form.Label>
-                    <Form.Control type="email" placeholder="Email or Username" required/>
+                    <Form.Control type="text" placeholder="Email or Username" required value={username}  onChange={handChange(setUsername)} />
                     <Form.Control.Feedback type="invalid">
                         Please enter email or username.
                     </Form.Control.Feedback>
@@ -31,7 +63,7 @@ const SignIn = () => {
                 <Form.Group className="mb-3" controlId="signin-pw">
                     <IoLockClosedOutline size={20} className='mx-2' />
                     <Form.Label className='fw-semibold'>Password</Form.Label>
-                    <Form.Control type="password" placeholder="Password" required/>
+                    <Form.Control type="password" placeholder="Password" required value={password}  onChange={handChange(setPassword)} />
                     <Form.Control.Feedback type="invalid">
                         Please enter password.
                     </Form.Control.Feedback>

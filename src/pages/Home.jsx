@@ -7,11 +7,29 @@ import Col from 'react-bootstrap/Col';
 import Container from 'react-bootstrap/Container';
 
 import CardRestaurant from '../components/CardRestaurant';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 import '../sass/home.scss';
 
 function Home() {
-    const cards = Array.from({ length: 8 });
+    const [ restaurantsData, setrestaurantsData] = useState([]);
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get('http://localhost:3000/restaurants');
+                if (response.status === 200) {
+                    setrestaurantsData(response.data)
+                }
+    
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchData();
+
+    }, []);
 
     return (
         <>
@@ -28,9 +46,10 @@ function Home() {
                 <div className='mt-5 box-restaurants'>
                     <h2>Restaurants</h2>
                     <Row className='mb-3'>
-                        {cards.map((_, index) => (
-                            <Col key={index} xs={12} md={6} lg={3} className="mb-4 d-flex justify-content-center">
-                                <CardRestaurant />
+                  
+                        {Array.isArray(restaurantsData) && restaurantsData?.map((data, index) => (
+                            <Col key={data.id} xs={12} md={6} lg={3} className="mb-4 d-flex justify-content-center">
+                                <CardRestaurant data_rest={data}/>
                             </Col>
                         ))}
                     </Row>

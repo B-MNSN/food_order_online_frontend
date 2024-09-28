@@ -8,22 +8,27 @@ import { FaLocationDot } from "react-icons/fa6";
 
 import '../sass/cardRestaurant.scss';
 
-function CardRestaurant() {
-    const [rating, setRating] = useState(0);
+function CardRestaurant({ data_rest }) {
+    const [rating, setRating] = useState(data_rest?.rating);
     const [modalShow, setModalShow] = useState(false);
+    const Address = `${data_rest?.subdistrict} ${data_rest?.district} ${data_rest?.province}`;
+    data_rest = {
+        ...data_rest,
+        Address
+    }
 
     return (
         <>
             <Card className='card-restaurant' onClick={() => setModalShow(true)}>
-                <Card.Img variant="top" src={defaultImage} />
+                <Card.Img variant="top" src={data_rest.restaurant_picture ? data_rest.restaurant_picture : defaultImage} />
                 <Card.Body>
-                    <Card.Title>ชื่อร้าน</Card.Title>
-                    <Card.Text className='d-flex align-items-center'><FaLocationDot size={25} />Location</Card.Text>
+                    <Card.Title>{data_rest.restaurant_name}</Card.Title>
+                    <Card.Text className='d-flex align-items-center'><FaLocationDot size={25} />{Address}</Card.Text>
                     <hr />
                     <RatingReview rating={rating} setRating={setRating} />
                 </Card.Body>
             </Card>
-            <ModalRestaurant show={modalShow} onHide={() => setModalShow(false)} />
+            <ModalRestaurant show={modalShow} onHide={() => setModalShow(false)} data_rest={data_rest}/>
         </>
 
 
