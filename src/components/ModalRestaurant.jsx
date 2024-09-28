@@ -35,7 +35,7 @@ function ModalRestaurant({ show, onHide, data_rest}) {
                         </div>
                     </div>
                     <hr/>
-                    <FoodMenu/>
+                    <FoodMenu type="customer" restaurantId={data_rest.id}/>
                 </Modal.Body>
                 
             </Modal>

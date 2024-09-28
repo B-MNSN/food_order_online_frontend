@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from 'react-bootstrap/Button';
 import Image from 'react-bootstrap/Image';
 import defaultImage from '../assets/default_image.jpg';
@@ -9,19 +9,33 @@ import { FiEdit } from "react-icons/fi";
 import { MdDelete } from "react-icons/md";
 import ModalFormFood from './ModalFormFood';
 import Swal from 'sweetalert2';
-
+import axios from 'axios';
 
 import '../sass/foodMenu.scss'
 
 
-function FoodMenu({ type }) {
-    const [quantities, setQuantities] = useState(Array(3).fill(1));
+function FoodMenu({ type, restaurantId }) {
+    const [foodMenuData, setFoodMenuData] = useState([]);
+    const [quantities, setQuantities] = useState([]);
     const [modalShow, setModalShow] = useState(false);
-    const foodItems = [
-        { id: 1, name: 'ชื่ออาหาร 1', price: 50 },
-        { id: 2, name: 'ชื่ออาหาร 2', price: 60 },
-        { id: 3, name: 'ชื่ออาหาร 3', price: 70 }
-    ];
+    
+
+    useEffect(() => {
+        async function fetchData() {
+            try {
+                const response = await axios.get(`http://localhost:3000/foodMenu/${restaurantId}`);
+                if (response.status === 200) {
+                    setFoodMenuData(response.data);
+                    setQuantities(new Array(response.data.length).fill(1));
+                }
+    
+            } catch (err) {
+                console.log(err);
+            }
+        }
+        fetchData();
+
+    }, []);
 
 
     const handleQuantityChange = (index, delta) => {
@@ -44,19 +58,19 @@ function FoodMenu({ type }) {
     return (
         <>
             <div className='box-list-food'>
-                {foodItems.map((item, index) => (
+                {foodMenuData.map((item, index) => (
                     <div className='list-food' key={item.id}>
                         <div className='item-food'>
                             <div className='box-thumbnail-name'>
                                 <div className='box-img-food'>
-                                    <Image src={defaultImage} fluid />
+                                    <Image src={item.food_picture ? item.food_picture : defaultImage} fluid />
                                 </div>
-                                <span>ชื่ออาหาร</span>
+                                <span>{item.food_name}</span>
                             </div>
 
                             {type !== "admin" ?
                                 <div className='box-action-list'>
-                                    <span>{item.price * quantities[index]}฿</span>
+                                    <span>{item.food_price * quantities[index]}฿</span>
                                     <div className='box-qty-food'>
                                         <Button
                                             variant="dark"
