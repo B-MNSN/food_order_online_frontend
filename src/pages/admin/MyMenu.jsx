@@ -16,20 +16,18 @@ import '../../sass/home.scss';
 
 function MyMenu() {
     const [modalShow, setModalShow] = useState(false);
-    const [userId, setUserId] = useState(null);
     const [restaurantId, setRestaurantId] = useState(null);
     const token = sessionStorage.getItem('token'); 
 
     useEffect(() => {
         if (token) {
             const decoded = jwtDecode(token);
-            setUserId(decoded.id);
+            const userId = decoded.id
             async function fetchData() {
                 try {
                     const response = await axios.get(`http://localhost:3000/user/${userId}`);
                     if (response.status === 200) {
                         setRestaurantId(response?.data[0]?.restaurant_id);
-                        console.log(response?.data[0]);
                     }
         
                 } catch (err) {
@@ -66,7 +64,7 @@ function MyMenu() {
                     </Row>
                 </div>
             </Container>
-            <ModalFormFood show={modalShow} onHide={() => setModalShow(false)} type={'add'}/>
+            <ModalFormFood show={modalShow} onHide={() => setModalShow(false)} type={'add'} restaurantId={restaurantId}/>
         </>
     );
 }

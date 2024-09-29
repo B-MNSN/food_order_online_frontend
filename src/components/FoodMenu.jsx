@@ -18,13 +18,14 @@ function FoodMenu({ type, restaurantId }) {
     const [foodMenuData, setFoodMenuData] = useState([]);
     const [quantities, setQuantities] = useState([]);
     const [modalShow, setModalShow] = useState(false);
+    const [selectedFoodId, setSelectedFoodId] = useState(null); 
     
-
     useEffect(() => {
         async function fetchData() {
             try {
-                const response = await axios.get(`http://localhost:3000/foodMenu/${restaurantId}`);
+                const response = await axios.get(`http://localhost:3000/foodMenu/restaurant/${restaurantId}`);
                 if (response.status === 200) {
+                    console.log(response.data);
                     setFoodMenuData(response.data);
                     setQuantities(new Array(response.data.length).fill(1));
                 }
@@ -35,7 +36,7 @@ function FoodMenu({ type, restaurantId }) {
         }
         fetchData();
 
-    }, []);
+    }, [restaurantId]);
 
 
     const handleQuantityChange = (index, delta) => {
@@ -45,14 +46,51 @@ function FoodMenu({ type, restaurantId }) {
             return newQuantities;
         });
     };
-    
-    const handleAlert = () => {
+
+    const handleDeleteFood = async (id) => {
+        try {
+            const response = await axios.delete(`http://localhost:3000/foodMenu/delete/${id}`);
+            if (response.status === 200) {
+                setFoodMenuData((prevData) => prevData.filter((item) => item.id !== id));
+                Swal.fire({
+                    title: response?.data?.message,
+                    icon: "success",
+                    confirmButtonText: "OK",
+                });
+            }
+        } catch (err) {
+            Swal.fire({
+                title: 'Failed to deleted food item',
+                icon: 'error',
+                confirmButtonText: "OK",
+            });
+        }
+    };
+
+    const handleAlert = (id, foodName) => {
         Swal.fire({
-            title: "คุณต้องการลบ “ชื่อเมนู” หรือไม่",
+            title: `คุณต้องการลบ ${foodName} หรือไม่`,
             icon: "warning",
             confirmButtonText: "Confirm",
             showCancelButton: true,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                handleDeleteFood(id);
+            }
         });
+    };
+
+    const handleEditClick = (foodId) => {
+        setSelectedFoodId(foodId);
+        setModalShow(true);
+    };
+
+    const updateFoodItem = (updatedFood) => {
+        setFoodMenuData((prevData) =>
+            prevData.map((item) =>
+                item.id === updatedFood.id ? updatedFood : item
+            )
+        );
     };
 
     return (
@@ -63,7 +101,7 @@ function FoodMenu({ type, restaurantId }) {
                         <div className='item-food'>
                             <div className='box-thumbnail-name'>
                                 <div className='box-img-food'>
-                                    <Image src={item.food_picture ? item.food_picture : defaultImage} fluid />
+                                    <Image src={item.food_picture ? `http://localhost:3000/uploads/${item.food_picture}` : defaultImage} fluid />
                                 </div>
                                 <span>{item.food_name}</span>
                             </div>
@@ -89,8 +127,8 @@ function FoodMenu({ type, restaurantId }) {
                                     <span>สถานะ</span>
                                     <div className="vr"></div>
                                     <div className='d-flex align-items-center'>
-                                        <FiEdit size={20} className='me-4' onClick={() => setModalShow(true)}/>
-                                        <MdDelete size={25}  onClick={() => handleAlert()}/>
+                                        <FiEdit size={20} className='me-4' onClick={() => handleEditClick(item.id)}/>
+                                        <MdDelete size={25}  onClick={() => handleAlert(item.id, item.food_name)}/>
                                     </div>
                                 </div>
                             }
@@ -98,7 +136,7 @@ function FoodMenu({ type, restaurantId }) {
                     </div>
                 ))}
             </div>
-            <ModalFormFood show={modalShow} onHide={() => setModalShow(false)} type={'edit'}/>
+            <ModalFormFood show={modalShow} onHide={() => setModalShow(false)} foodId={selectedFoodId} type={'edit'} updateFoodItem={updateFoodItem}/>
         </>
     );
 }
