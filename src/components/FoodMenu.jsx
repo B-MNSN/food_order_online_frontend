@@ -10,6 +10,8 @@ import { MdDelete } from "react-icons/md";
 import ModalFormFood from './ModalFormFood';
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
+
 
 import '../sass/foodMenu.scss'
 
@@ -19,6 +21,12 @@ function FoodMenu({ type, restaurantId }) {
     const [quantities, setQuantities] = useState([]);
     const [modalShow, setModalShow] = useState(false);
     const [selectedFoodId, setSelectedFoodId] = useState(null); 
+    const token = sessionStorage.getItem('token'); 
+    let userId = '';
+    if (token) {
+        const decoded = jwtDecode(token);
+        userId = decoded.id;
+    }
     
     useEffect(() => {
         async function fetchData() {
@@ -63,6 +71,36 @@ function FoodMenu({ type, restaurantId }) {
                 title: 'Failed to deleted food item',
                 icon: 'error',
                 confirmButtonText: "OK",
+            });
+        }
+    };
+
+    const handleAddToCart = async (qtyIndex, foodItem) => {
+        try {
+            const response = await axios.post('http://localhost:3000/orderFoods/add', {
+                quantity: quantities[qtyIndex],
+                status: 'pending',
+                userId: userId,
+                restaurantId: restaurantId,
+                foodMenuId: foodItem.id
+            });
+
+            if (response.status === 200) {
+                Swal.fire({
+                    title: `คำสั่งซื้อ ${foodItem.food_name} ถูกเพิ่มลงในตระกร้า`,
+                    icon: 'success',
+                    confirmButtonText: 'OK'
+                });
+            }
+    
+           
+        } catch (error) {
+            console.log(error);
+            const errorMsg = error.response?.data?.message || 'Failed add to cart';
+            Swal.fire({
+                title: errorMsg,
+                icon: 'error',
+                confirmButtonText: 'OK'
             });
         }
     };
@@ -120,7 +158,7 @@ function FoodMenu({ type, restaurantId }) {
                                         <span>{quantities[index]}</span>
                                         <Button variant="dark" onClick={() => handleQuantityChange(index, 1)}><TiPlus /></Button>
                                     </div>
-                                    <Button variant="dark"><MdAddShoppingCart className='me-2'/>Add to cart</Button>
+                                    <Button variant="dark" onClick={() => handleAddToCart(index, item)}><MdAddShoppingCart className='me-2'/>Add to cart</Button>
                                 </div>
                                 : 
                                 <div className='box-action-list'>

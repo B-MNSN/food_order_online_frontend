@@ -9,6 +9,7 @@ import Cart from './pages/Cart';
 import History from './pages/History';
 import AuthPage from './pages/AuthPage'; 
 import MyMenu from './pages/admin/MyMenu';
+import OrderList from './pages/admin/OrderList';
 
 function App() {
 
@@ -23,6 +24,7 @@ function App() {
 
         {/* Admin */}
         <Route path='/admin/home' element={<MyMenu />} />
+        <Route path='/admin/orderList' element={<OrderList />} />
       </Routes>
     </>
   )

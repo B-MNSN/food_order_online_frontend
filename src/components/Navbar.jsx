@@ -4,6 +4,7 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Offcanvas from 'react-bootstrap/Offcanvas';
+import { jwtDecode } from 'jwt-decode';
 
 import '../sass/navbar.scss';
 
@@ -16,11 +17,19 @@ import { MdLogout } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import { GoHomeFill } from "react-icons/go";
 import { MdHistory } from "react-icons/md";
+import { FaListCheck } from "react-icons/fa6";
+import { IoMdRestaurant } from "react-icons/io";
 
 
 
 function Navbars() {
     const token = sessionStorage.getItem('token'); 
+    let userRole = '';
+    if (token) {
+        const decoded = jwtDecode(token);
+        userRole = decoded.role;
+    }
+ 
 
     return (
         <Navbar key="md" expand="md" className="navbar mb-3">
@@ -48,10 +57,19 @@ function Navbars() {
                     </Offcanvas.Header>
                     <Offcanvas.Body>
                         <Nav className="box-menu-nav">
-                            <Nav.Link href="/home"><GoHomeFill size={25} className='me-1'/>Home</Nav.Link>
-                            <Nav.Link href={token ? "/history" : "/auth"}><MdHistory size={25} className='me-1'/>History</Nav.Link>
-                            <Nav.Link href={token ? "/cart" : "/auth"}><FaCartShopping size={25} className='me-1'/></Nav.Link>
+                            {userRole && userRole === 1 ? (
+                                <>
+                                    <Nav.Link href="/admin/home"><IoMdRestaurant size={25} className='me-1'/>My menu</Nav.Link>
+                                    <Nav.Link href={token ? "/admin/orderList" : "/auth"}><FaListCheck size={25} className='me-1'/>Order List</Nav.Link>
+                                </>
+                            ) : (
+                                <> 
+                                    <Nav.Link href="/home"><GoHomeFill size={25} className='me-1'/>Home</Nav.Link>
+                                    <Nav.Link href={token ? "/history" : "/auth"}><MdHistory size={25} className='me-1'/>History</Nav.Link>
+                                    <Nav.Link href={token ? "/cart" : "/auth"}><FaCartShopping size={25} className='me-1'/></Nav.Link>
+                                </>
 
+                            )}
                            
                             {token ? 
                                  <NavDropdown
