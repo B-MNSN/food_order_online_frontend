@@ -10,6 +10,7 @@ import History from './pages/History';
 import AuthPage from './pages/AuthPage'; 
 import MyMenu from './pages/admin/MyMenu';
 import OrderList from './pages/admin/OrderList';
+import Search from './pages/Search';
 
 function App() {
 
@@ -21,6 +22,7 @@ function App() {
         <Route path='/home' element={<Home />} />
         <Route path='/cart' element={<Cart />} />
         <Route path='/history' element={<History />} />
+        <Route path='/search' element={<Search />} />
 
         {/* Admin */}
         <Route path='/admin/home' element={<MyMenu />} />

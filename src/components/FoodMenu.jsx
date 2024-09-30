@@ -21,7 +21,11 @@ function FoodMenu({ type, restaurantId }) {
     const [quantities, setQuantities] = useState([]);
     const [modalShow, setModalShow] = useState(false);
     const [selectedFoodId, setSelectedFoodId] = useState(null); 
-    const token = sessionStorage.getItem('token'); 
+    const token = sessionStorage.getItem('token');
+    const statusFood = {
+        '0': 'หมด',
+        '1': 'ไม่หมด',
+    }; 
     let userId = '';
     if (token) {
         const decoded = jwtDecode(token);
@@ -175,7 +179,7 @@ function FoodMenu({ type, restaurantId }) {
                                 </div>
                                 : 
                                 <div className='box-action-list'>
-                                    <span>สถานะ</span>
+                                    <span>{statusFood[item.status]}</span>
                                     <div className="vr"></div>
                                     <div className='d-flex align-items-center'>
                                         <FiEdit size={20} className='me-4' onClick={() => handleEditClick(item.id)}/>

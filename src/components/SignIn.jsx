@@ -28,7 +28,7 @@ const SignIn = () => {
 
                 if (response.status === 200) {
                     const token = response?.data?.token;
-                    sessionStorage.setItem('token', status);
+                    sessionStorage.setItem('token', token);
                     let role = '';
                     if (token) {
                         const decoded = jwtDecode(token);

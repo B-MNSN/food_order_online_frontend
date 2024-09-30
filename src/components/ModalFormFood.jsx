@@ -244,8 +244,8 @@ function ModalFormFood({ show, onHide, type, foodId, restaurantId, updateFoodIte
                             <Form.Label className='fw-semibold'>สถานะอาหาร</Form.Label>
                             <Form.Select aria-label="Default select example" required value={foodStatus} onChange={handChange(setFoodStatus)}>
                                 <option>เลือกสถานะอาหาร</option>
-                                <option value="1">หมด</option>
-                                <option value="0">ไม่หมด</option>
+                                <option value="0">หมด</option>
+                                <option value="1">ไม่หมด</option>
                             </Form.Select>
                             <Form.Control.Feedback type="invalid">
                                 กรุณาสถานะอาหาร
