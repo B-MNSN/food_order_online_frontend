@@ -1,0 +1,17 @@
+.box-banner {
+    position: relative;
+    margin: 2rem 0;
+    img {
+        width: 100%;
+        aspect-ratio: 160 / 50;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 5px;
+    }
+    .box-title {
+        position: absolute;
+        top: 25%;
+        transform: translate(10%, 50%);
+    }
+    
+}

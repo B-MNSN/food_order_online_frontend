@@ -1,0 +1,9 @@
+.modal-restaurant {
+    .thumbnail-restaurant {
+        width: 100%;
+        aspect-ratio: 160 / 50;
+        object-fit: cover;
+        object-position: center;
+        border-radius: 5px;
+    }
+}
