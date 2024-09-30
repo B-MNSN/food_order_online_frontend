@@ -5,6 +5,7 @@ import { FiUser } from "react-icons/fi";
 import { IoLockClosedOutline } from "react-icons/io5";
 import Swal from 'sweetalert2';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 
 const SignIn = () => {
     const [validated, setValidated] = useState(false);
@@ -26,8 +27,19 @@ const SignIn = () => {
                 });
 
                 if (response.status === 200) {
-                    sessionStorage.setItem('token', response.data.token);
-                    window.location.href = '/home';
+                    const token = response?.data?.token;
+                    sessionStorage.setItem('token', status);
+                    let role = '';
+                    if (token) {
+                        const decoded = jwtDecode(token);
+                        role = decoded.role;
+                        if (role === 1) {
+                            window.location.href = '/admin/home';
+
+                        } else {
+                            window.location.href = '/home';
+                        }
+                    }
                 }
             } catch (e) {
                 Swal.fire({

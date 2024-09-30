@@ -76,33 +76,46 @@ function FoodMenu({ type, restaurantId }) {
     };
 
     const handleAddToCart = async (qtyIndex, foodItem) => {
-        try {
-            const response = await axios.post('http://localhost:3000/orderFoods/add', {
-                quantity: quantities[qtyIndex],
-                status: 'pending',
-                userId: userId,
-                restaurantId: restaurantId,
-                foodMenuId: foodItem.id
-            });
-
-            if (response.status === 200) {
+        if (token) {
+            try {
+                const response = await axios.post('http://localhost:3000/orderFoods/add', {
+                    quantity: quantities[qtyIndex],
+                    status: 'pending',
+                    userId: userId,
+                    restaurantId: restaurantId,
+                    foodMenuId: foodItem.id
+                });
+    
+                if (response.status === 200) {
+                    Swal.fire({
+                        title: `คำสั่งซื้อ ${foodItem.food_name} ถูกเพิ่มลงในตระกร้า`,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    });
+                }
+        
+               
+            } catch (error) {
+                console.log(error);
+                const errorMsg = error.response?.data?.message || 'Failed add to cart';
                 Swal.fire({
-                    title: `คำสั่งซื้อ ${foodItem.food_name} ถูกเพิ่มลงในตระกร้า`,
-                    icon: 'success',
+                    title: errorMsg,
+                    icon: 'error',
                     confirmButtonText: 'OK'
                 });
             }
-    
-           
-        } catch (error) {
-            console.log(error);
-            const errorMsg = error.response?.data?.message || 'Failed add to cart';
+        } else {
             Swal.fire({
-                title: errorMsg,
-                icon: 'error',
+                title: `คุณต้องเข้าสู่ระบบก่อน`,
+                icon: 'warning',
                 confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/auth';
+                }
             });
         }
+        
     };
 
     const handleAlert = (id, foodName) => {

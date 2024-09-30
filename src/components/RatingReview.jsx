@@ -1,8 +1,14 @@
 import React, { useState } from "react";
 import { FaStar } from "react-icons/fa";
 
-function RatingReview({ rating, setRating }) {
+function RatingReview({ rating, setRating, onRatingClick  }) {
     const [hoveredStar, setHoveredStar] = useState(null);
+
+    const handleStarClick = (star) => {
+        if (onRatingClick()) {
+            setRating(rating === star ? 0 : star);
+        }
+    };
     return (
         <div>
             {[1, 2, 3, 4, 5].map((star) => {
@@ -16,7 +22,7 @@ function RatingReview({ rating, setRating }) {
                             fontSize: '1.75rem',
                             margin: '0 0.2rem'
                         }}
-                        onClick={() => setRating(rating === star ? 0 : star)}
+                        onClick={() => setRating(handleStarClick)}
                         onMouseEnter={() => setHoveredStar(star)}
                         onMouseLeave={() => setHoveredStar(null)}
                     >

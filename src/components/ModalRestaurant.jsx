@@ -6,9 +6,29 @@ import RatingReview from '../components/RatingReview';
 import { FaLocationDot } from "react-icons/fa6";
 import FoodMenu from './FoodMenu';
 import '../sass/modalRestaurant.scss'
+import Swal from 'sweetalert2';
 
 function ModalRestaurant({ show, onHide, data_rest}) {
     const [rating, setRating] = useState(data_rest.rating);
+    const token = sessionStorage.getItem('token'); 
+
+    const handleRatingClick = () => {
+        if (!token) {
+            Swal.fire({
+                title: 'คุณต้องเข้าสู่ระบบก่อน',
+                icon: 'warning',
+                confirmButtonText: 'OK'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    window.location.href = '/auth';
+                }
+            });
+            return false;
+        }
+        return true;
+    };
+
+
     return (
         <>
             <Modal
@@ -27,7 +47,7 @@ function ModalRestaurant({ show, onHide, data_rest}) {
                     <div className='d-flex justify-content-between align-items-center mt-4'>
                         <div className='d-flex flex-column'>
                             <span className='d-flex align-items-center mb-2'><FaLocationDot size={25} />{data_rest.Address}</span>
-                            <RatingReview rating={rating} setRating={setRating} />
+                            <RatingReview rating={rating} setRating={setRating} onRatingClick={handleRatingClick} />
                         </div>
                         <div className='d-flex flex-column align-items-end'>
                             <span className='mb-2'>เวลาเปิด-ปิด</span>
